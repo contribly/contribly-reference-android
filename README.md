@@ -25,4 +25,5 @@ Build the client and publish to your local Maven repo
 
 
 ###Build the apk
-./gradlew assemble
+
+    ./gradlew assemble
