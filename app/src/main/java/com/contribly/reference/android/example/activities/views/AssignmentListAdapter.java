@@ -53,7 +53,7 @@ public class AssignmentListAdapter extends ArrayAdapter<Assignment> {
 		if (cover != null) {
 			coverView.setVisibility(View.VISIBLE);
 			coverView.setScaleType(ImageView.ScaleType.FIT_START);
-			Picasso.with(context).load(cover.getUrl()).into(coverView);
+			Picasso.with(context).load(cover.getUrl()).placeholder(R.drawable.coverplaceholder).into(coverView);
 
 		} else {
 			coverView.setVisibility(View.GONE);
