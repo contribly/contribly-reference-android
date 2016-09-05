@@ -7,5 +7,5 @@ Acts as an Android share target for images.
 
 This application makes use of the Swagger auto generated Java client and is used to validate that the Swagger API definition is correct.
 
-java -jar modules/swagger-codegen-cli/target/swagger-codegen-cli.jar generate -i http://10.0.45.10:9000/1/swagger.json -l java  --library=okhttp-gson -DserializableModel=true -o /tmp/contribly
+java -jar modules/swagger-codegen-cli/target/swagger-codegen-cli.jar generate -i https://api.contribly.com/1/swagger.json -l java  --library=okhttp-gson -DserializableModel=true -o /tmp/contribly
 
