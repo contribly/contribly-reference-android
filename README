@@ -5,7 +5,23 @@ A basic Android application which demonstrates basic read/write usages of the Co
 Provides a list of open assignments, views moderated contributions for those assigments and allows new contributions to be posted.
 Acts as an Android share target for images.
 
-This application makes use of the Swagger auto generated Java client and is used to validate that the Swagger API definition is correct.
 
+## Building
+
+This application uses a Java client library auto generated from the Contribly API's Swagger definition.
+
+To generate a local copy of this client follow this steps:
+
+###Generate the client using Swagger codegen
+
+git clone https://github.com/swagger-api/swagger-codegen.git
+mvn clean install
 java -jar modules/swagger-codegen-cli/target/swagger-codegen-cli.jar generate -i https://api.contribly.com/1/swagger.json -l java  --library=okhttp-gson -DserializableModel=true -o /tmp/contribly
+
+
+###Build the client and publish to your local Maven repo
+
+cd /tmp/contribly
+mvn clean package
+
 
