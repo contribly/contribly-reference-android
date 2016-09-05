@@ -1,12 +1,8 @@
 package com.contribly.reference.android.example.activities;
 
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Matrix;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -31,10 +27,8 @@ import com.contribly.reference.android.example.api.ApiFactory;
 import com.contribly.reference.android.example.services.ContributionPostingService;
 import com.contribly.reference.android.example.services.LoggedInUserService;
 import com.google.common.collect.Lists;
+import com.squareup.picasso.Picasso;
 
-import org.apache.commons.io.IOUtils;
-
-import java.io.ByteArrayOutputStream;
 import java.util.List;
 
 import io.swagger.client.api.AssignmentApi;
@@ -219,30 +213,8 @@ public class contribute extends BaseActivity implements LocationListener {
 
 	private void receiveAndPreviewSelectedImage(ImageView imagePreview, Uri uri) {
 		Log.i(TAG, "Accepting selected image from URI: " + uri);
-
-		try {
-			ContentResolver cr = getContentResolver();
-			byte[] imageBytes = IOUtils.toByteArray(cr.openInputStream(uri));
-
-			Log.i(TAG, "Received shared image");
-			this.image = uri;
-
-			showImagePreview(imageBytes, imagePreview);
-		} catch (Exception e) {
-			Log.e(TAG, "Error while receiving selected image: " + uri, e);
-		}
-	}
-
-	private void showImagePreview(byte[] image, ImageView imagePreview) {	// TODO should be a background task
-		Bitmap bitmap = BitmapFactory.decodeByteArray(image, 0, image.length);
-		Matrix matrix = new Matrix();
-		matrix.postScale(0.2f, 0.2f);
-		Bitmap resizedBitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, false);
-
-		ByteArrayOutputStream stream = new ByteArrayOutputStream();
-		resizedBitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
-
-		imagePreview.setImageBitmap(resizedBitmap);
+		this.image = uri;
+		Picasso.with(this).load(uri).resize(200, 200).centerCrop().into(imagePreview);
 	}
 
 	@Override
