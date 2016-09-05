@@ -14,14 +14,14 @@ This application uses a Java client library auto generated from the Contribly AP
 
 To generate a local copy of this client follow this steps:
 
-git clone https://github.com/swagger-api/swagger-codegen.git
-mvn clean install
-java -jar modules/swagger-codegen-cli/target/swagger-codegen-cli.jar generate -i https://api.contribly.com/1/swagger.json -l java  --library=okhttp-gson -DserializableModel=true -o /tmp/contribly
+    git clone https://github.com/swagger-api/swagger-codegen.git
+    mvn clean install
+    java -jar modules/swagger-codegen-cli/target/swagger-codegen-cli.jar generate -i https://api.contribly.com/1/swagger.json -l java  --library=okhttp-gson -DserializableModel=true -o /tmp/contribly
 
 Build the client and publish to your local Maven repo
 
-cd /tmp/contribly
-mvn clean package
+    cd /tmp/contribly
+    mvn clean package
 
 
 ###Build the apk
