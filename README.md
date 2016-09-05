@@ -8,7 +8,7 @@ Acts as an Android share target for images.
 
 ## Building
 
-The project is layed out in Android Studio foramt. It should import correctly into a copy of Android Studio which has Android SDK 23 or higher installed.
+The project is layed out in Android Studio format. It should import correctly into a copy of Android Studio which has Android SDK 23 or higher installed.
 
 
 ###Generate the client using Swagger codegen
