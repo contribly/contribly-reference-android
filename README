@@ -25,3 +25,5 @@ cd /tmp/contribly
 mvn clean package
 
 
+###Build the apl
+./gradlew assemble
