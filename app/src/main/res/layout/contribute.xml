@@ -69,29 +69,37 @@
                     android:prompt="@string/assignment_prompt"
                     android:layout_marginBottom="8pt" />
 
-                <GridLayout
+                <TableLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:columnCount="2"
-                    android:rowCount="1"
-                    android:layout_marginBottom="8pt">
+                    android:layout_height="match_parent">
 
-                    <Button
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Choose image"
-                        android:id="@+id/chooseImage" />
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <Button
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Choose image"
+                            android:id="@+id/chooseImage" />
+
+                    </TableRow>
+                </TableLayout>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
                     <ImageView
                         android:id="@+id/contributionImagePreview"
-                        android:layout_width="wrap_content"
+                        android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:src="@drawable/logo"
                         android:visibility="gone"
-                        android:layout_gravity="center_horizontal"
                         android:paddingTop="2pt"
-                        android:paddingBottom="2pt" />
-                </GridLayout>
+                        android:paddingBottom="2pt"
+                        android:adjustViewBounds="true" />
+                </TableRow>
 
                 <Button
                     android:id="@+id/contributeButton"

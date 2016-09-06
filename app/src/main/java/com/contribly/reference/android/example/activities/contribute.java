@@ -229,13 +229,11 @@ public class contribute extends BaseActivity implements LocationListener {
 	    public void onClick(View v) {
 	    	contribute();
 	    }
-	};
-
 	private void receiveAndPreviewSelectedImage(ImageView imagePreview, Uri uri) {
 		Log.i(TAG, "Accepting selected image from URI: " + uri);
 		this.image = uri;
         imagePreview.setVisibility(View.VISIBLE);
-        Picasso.with(this).load(uri).resize(640, 640).centerInside().into(imagePreview);
+        Picasso.with(this).load(uri).resize(640, 640).centerCrop().into(imagePreview);
 	}
 
 	@Override
