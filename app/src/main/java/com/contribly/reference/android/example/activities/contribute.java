@@ -111,18 +111,18 @@ public class contribute extends BaseActivity implements LocationListener {
 	}
 
 	private void populateAssignmentDropdown(List<Assignment> assignments) {
-		final List<String> assignmentIds = Lists.newArrayList();
+		final List<String> assignmentNames = Lists.newArrayList();
 	    for (Assignment assignment : assignments) {
-			assignmentIds.add(assignment.getUrlWords());
+			assignmentNames.add(assignment.getName());
 		}
 	    
 		Spinner assignmentDropdown = (Spinner) findViewById(R.id.assignmentDropdown);
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, assignmentIds);	// TODO use assignment names as labels
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, assignmentNames);   // TODO Assignment name may not be unique. No dropdown key/value ui in Android?
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         assignmentDropdown.setAdapter(dataAdapter);
         
         if (assignment != null) {
-        	final int selectedIndex = assignmentIds.indexOf(assignment.getUrlWords());
+        	final int selectedIndex = assignmentNames.indexOf(assignment.getName());
         	if (selectedIndex > -1) {
         		assignmentDropdown.setSelection(selectedIndex);
         	}
@@ -143,14 +143,17 @@ public class contribute extends BaseActivity implements LocationListener {
         final String body = bodyInput.getText().toString();	
 
         Spinner assignmentDropdown = (Spinner) findViewById(R.id.assignmentDropdown);
-        final String selectedAssignment = (String) assignmentDropdown.getSelectedItem();
+        final String selectedAssignmentName = (String) assignmentDropdown.getSelectedItem();
 
 		// Compose a new contribution from the user's form submission and the handset location if available
 		Contribution newContribution = new Contribution();
 		newContribution.setHeadline(headline);
 		newContribution.setBody(body);
-		newContribution.setAssignment(assignments.get(0));	// TODO implement
-		// TODO location and image
+
+        Assignment selectedAssignment = findAssignmentByName(selectedAssignmentName, assignments);
+		newContribution.setAssignment(selectedAssignment);
+
+		// TODO location
 
 		Log.i(TAG, "Composed new contribution to submit: " + newContribution);
 
@@ -172,6 +175,15 @@ public class contribute extends BaseActivity implements LocationListener {
 		this.startActivity(new Intent(this, assignments.class));
 		return;
 	}
+
+    private Assignment findAssignmentByName(String name, List<Assignment> assignments) {
+        for(Assignment assignment: assignments) {
+            if (assignment.getName().equals(name)) {
+                return assignment;
+            }
+        }
+        return null;
+    }
 
 	@Override
 	public void onLocationChanged(Location location) {
