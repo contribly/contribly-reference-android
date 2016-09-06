@@ -226,9 +226,11 @@ public class contribute extends BaseActivity implements LocationListener {
 	}
 	
 	private OnClickListener contributionClickListener = new OnClickListener() {
-	    public void onClick(View v) {
-	    	contribute();
-	    }
+		public void onClick(View v) {
+			contribute();
+		}
+	};
+
 	private void receiveAndPreviewSelectedImage(ImageView imagePreview, Uri uri) {
 		Log.i(TAG, "Accepting selected image from URI: " + uri);
 		this.image = uri;
