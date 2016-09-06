@@ -2,4 +2,5 @@
 <resources>
     <string name="app_name">Contribly reference</string>
   	<string name="widget_name">Contribly</string>
+  	<string name="assignment_prompt">Choose an assignment</string>
 </resources>

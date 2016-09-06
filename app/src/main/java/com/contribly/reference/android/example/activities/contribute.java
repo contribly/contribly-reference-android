@@ -13,6 +13,7 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -62,8 +63,8 @@ public class contribute extends BaseActivity implements LocationListener {
 	        }
 		}
         
-		ImageView imagePreview = (ImageView) findViewById(R.id.contributionImagePreview);
-        imagePreview.setOnClickListener(new ContributeImageClicker());
+		Button chooseImageButton = (Button) findViewById(R.id.chooseImage);
+		chooseImageButton.setOnClickListener(new ContributeImageClicker());
 		
         new FetchAssignmentsTask(ApiFactory.getAssignmentApi(this)).execute(ApiFactory.ownedBy(this));
 
@@ -74,8 +75,15 @@ public class contribute extends BaseActivity implements LocationListener {
 		if (Intent.ACTION_SEND.equals(action)) {
 			if (extras.containsKey(Intent.EXTRA_STREAM)) {
 				Uri uri = (Uri) extras.getParcelable(Intent.EXTRA_STREAM);
+				ImageView imagePreview = (ImageView)  findViewById(R.id.image);
 				receiveAndPreviewSelectedImage(imagePreview, uri);
 			}
+		}
+
+		View currentFocus = this.getCurrentFocus();
+		InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+		if (currentFocus != null) {
+			imm.hideSoftInputFromWindow(currentFocus.getWindowToken(), 0);
 		}
     }
 	
@@ -214,7 +222,8 @@ public class contribute extends BaseActivity implements LocationListener {
 	private void receiveAndPreviewSelectedImage(ImageView imagePreview, Uri uri) {
 		Log.i(TAG, "Accepting selected image from URI: " + uri);
 		this.image = uri;
-		Picasso.with(this).load(uri).resize(200, 200).centerCrop().into(imagePreview);
+        imagePreview.setVisibility(View.VISIBLE);
+        Picasso.with(this).load(uri).resize(640, 640).centerInside().into(imagePreview);
 	}
 
 	@Override
@@ -237,8 +246,7 @@ public class contribute extends BaseActivity implements LocationListener {
             Uri imageUri = Uri.parse("file:///" + picturePath);			
              
             ImageView imagePreview = (ImageView) findViewById(R.id.contributionImagePreview);
-           
-			receiveAndPreviewSelectedImage(imagePreview, imageUri);	        
+			receiveAndPreviewSelectedImage(imagePreview, imageUri);
         }     
     }
 	

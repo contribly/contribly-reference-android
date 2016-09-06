@@ -14,7 +14,7 @@
             android:id="@+id/linearLayout1"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:orientation="vertical" >
+            android:orientation="vertical">
             
          	<TextView
                 android:id="@+id/textView1"
@@ -33,14 +33,17 @@
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/contributeForm">
+                android:id="@+id/contributeForm"
+                android:padding="2pt"
+                android:divider="@android:color/holo_orange_light">
 
                 <EditText
                     android:id="@+id/headline"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:ems="10"
-                    android:hint="Headline">
+                    android:hint="Headline"
+                    android:layout_marginBottom="8pt">
                     <requestFocus />
                 </EditText>
 
@@ -51,11 +54,44 @@
                     android:layout_weight="0.08"
                     android:ems="10"
                     android:inputType="textMultiLine"
-                    android:hint="Body" />
+                    android:hint="Body"
+                    android:layout_marginBottom="8pt" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/assignment_prompt"
+                    android:id="@+id/textView" />
 
                 <Spinner android:id="@+id/assignmentDropdown"
                     android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:prompt="@string/assignment_prompt"
+                    android:layout_marginBottom="8pt" />
+
+                <GridLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:columnCount="2"
+                    android:rowCount="1"
+                    android:layout_marginBottom="8pt">
+
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Choose image"
+                        android:id="@+id/chooseImage" />
+
+                    <ImageView
+                        android:id="@+id/contributionImagePreview"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/logo"
+                        android:visibility="gone"
+                        android:layout_gravity="center_horizontal"
+                        android:paddingTop="2pt"
+                        android:paddingBottom="2pt" />
+                </GridLayout>
 
                 <Button
                     android:id="@+id/contributeButton"
@@ -63,11 +99,6 @@
                     android:layout_height="wrap_content"
                     android:text="Contribute" />
 
-                <ImageView
-                    android:id="@+id/contributionImagePreview"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/logo" />
             </LinearLayout>
 
 
