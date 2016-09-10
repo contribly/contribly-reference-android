@@ -5,7 +5,7 @@ import org.joda.time.DateTime;
 import com.google.common.base.Strings;
 import com.contribly.reference.android.example.utils.DateTimeHelper;
 
-import io.swagger.client.model.Contribution;
+import com.contribly.client.model.Contribution;
 
 public class ContributionDescriptionBuilder {
 

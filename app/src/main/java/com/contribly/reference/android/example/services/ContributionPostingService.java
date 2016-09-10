@@ -20,12 +20,12 @@ import org.apache.commons.io.IOUtils;
 import java.io.IOException;
 import java.util.Date;
 
-import io.swagger.client.ApiException;
-import io.swagger.client.api.ContributionApi;
-import io.swagger.client.api.MediaApi;
-import io.swagger.client.model.Contribution;
-import io.swagger.client.model.Media;
-import io.swagger.client.model.MediaUsage;
+import com.contribly.client.ApiException;
+import com.contribly.client.api.ContributionApi;
+import com.contribly.client.api.MediaApi;
+import com.contribly.client.model.Contribution;
+import com.contribly.client.model.Media;
+import com.contribly.client.model.MediaUsage;
 
 public class ContributionPostingService extends IntentService {
 

@@ -32,9 +32,9 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-import io.swagger.client.api.AssignmentApi;
-import io.swagger.client.model.Assignment;
-import io.swagger.client.model.Contribution;
+import com.contribly.client.api.AssignmentApi;
+import com.contribly.client.model.Assignment;
+import com.contribly.client.model.Contribution;
 
 public class contribute extends BaseActivity implements LocationListener {
 

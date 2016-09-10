@@ -4,7 +4,7 @@ import com.contribly.reference.android.example.utils.DateTimeHelper;
 
 import org.joda.time.DateTime;
 
-import io.swagger.client.model.Assignment;
+import com.contribly.client.model.Assignment;
 
 public class AssignmentDescriptionBuilder {
 

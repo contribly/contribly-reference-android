@@ -35,5 +35,5 @@ dependencies {
     compile 'joda-time:joda-time:2.9.4'
     compile 'commons-io:commons-io:2.5'
     compile 'com.squareup.picasso:picasso:2.5.2'
-    compile ('io.swagger:swagger-java-client:1.0.0') { transitive true }
+    compile ('com.contribly.client:swagger-java-client:1.0.0') { transitive true }
 }

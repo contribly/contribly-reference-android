@@ -11,10 +11,10 @@ import com.contribly.reference.android.example.R;
 import com.contribly.reference.android.example.api.ApiFactory;
 import com.contribly.reference.android.example.services.LoggedInUserService;
 
-import io.swagger.client.ApiException;
-import io.swagger.client.api.AuthApi;
-import io.swagger.client.model.Authority;
-import io.swagger.client.model.User;
+import com.contribly.client.ApiException;
+import com.contribly.client.api.AuthApi;
+import com.contribly.client.model.Authority;
+import com.contribly.client.model.User;
 
 public class profile extends BaseActivity {
 

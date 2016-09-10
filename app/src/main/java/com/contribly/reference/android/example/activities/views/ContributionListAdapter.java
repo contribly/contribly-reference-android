@@ -12,8 +12,8 @@ import android.widget.TextView;
 import com.contribly.reference.android.example.R;
 import com.squareup.picasso.Picasso;
 
-import io.swagger.client.model.Artifact;
-import io.swagger.client.model.Contribution;
+import com.contribly.client.model.Artifact;
+import com.contribly.client.model.Contribution;
 
 public class ContributionListAdapter extends ArrayAdapter<Contribution> {
 

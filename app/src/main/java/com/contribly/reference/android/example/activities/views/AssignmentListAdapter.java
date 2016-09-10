@@ -12,8 +12,8 @@ import android.widget.TextView;
 import com.contribly.reference.android.example.R;
 import com.squareup.picasso.Picasso;
 
-import io.swagger.client.model.Artifact;
-import io.swagger.client.model.Assignment;
+import com.contribly.client.model.Artifact;
+import com.contribly.client.model.Assignment;
 
 public class AssignmentListAdapter extends ArrayAdapter<Assignment> {
 

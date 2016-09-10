@@ -19,7 +19,7 @@ To generate a local copy of this client follow this steps:
 
     git clone https://github.com/swagger-api/swagger-codegen.git
     mvn clean install
-    java -jar modules/swagger-codegen-cli/target/swagger-codegen-cli.jar generate -i https://api.contribly.com/1/swagger.json -l java  --library=okhttp-gson -DserializableModel=true -o /tmp/contribly
+    java -jar modules/swagger-codegen-cli/target/swagger-codegen-cli.jar generate -i https://api.contribly.com/1/swagger.json -l java --group-id com.contribly.client --api-package com.contribly.client.api --invoker-package com.contribly.client --model-package com.contribly.client.model --library=okhttp-gson -DserializableModel=true -o /tmp/contribly
 
 Build the client and publish to your local Maven repo
 

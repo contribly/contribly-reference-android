@@ -2,7 +2,7 @@ package com.contribly.reference.android.example.model;
 
 import java.util.List;
 
-import io.swagger.client.model.Contribution;
+import com.contribly.client.model.Contribution;
 
 public class ResultSet {
 

@@ -1,8 +1,8 @@
 package com.contribly.reference.android.example.activities.views;
 
-import io.swagger.client.model.Artifact;
-import io.swagger.client.model.Contribution;
-import io.swagger.client.model.MediaUsage;
+import com.contribly.client.model.Artifact;
+import com.contribly.client.model.Contribution;
+import com.contribly.client.model.MediaUsage;
 
 public class ArtifactFinder {
 

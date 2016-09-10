@@ -11,8 +11,8 @@ import com.contribly.reference.android.example.activities.views.ContributionClic
 import com.contribly.reference.android.example.activities.views.ContributionDescriptionBuilder;
 import com.squareup.picasso.Picasso;
 
-import io.swagger.client.model.Artifact;
-import io.swagger.client.model.Contribution;
+import com.contribly.client.model.Artifact;
+import com.contribly.client.model.Contribution;
 
 public class contribution extends BaseActivity {
 

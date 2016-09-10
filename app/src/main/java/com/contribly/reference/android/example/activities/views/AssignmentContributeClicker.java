@@ -7,7 +7,7 @@ import android.view.View.OnClickListener;
 
 import com.contribly.reference.android.example.activities.contribute;
 
-import io.swagger.client.model.Assignment;
+import com.contribly.client.model.Assignment;
 
 public class AssignmentContributeClicker implements OnClickListener {
 

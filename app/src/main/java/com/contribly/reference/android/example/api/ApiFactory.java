@@ -5,12 +5,10 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
-import com.contribly.reference.android.example.services.ContributionPostingService;
-
-import io.swagger.client.api.AssignmentApi;
-import io.swagger.client.api.AuthApi;
-import io.swagger.client.api.ContributionApi;
-import io.swagger.client.api.MediaApi;
+import com.contribly.client.api.AssignmentApi;
+import com.contribly.client.api.AuthApi;
+import com.contribly.client.api.ContributionApi;
+import com.contribly.client.api.MediaApi;
 
 public class ApiFactory {	// Factory class for producing configured API instances.
 	
@@ -18,19 +16,19 @@ public class ApiFactory {	// Factory class for producing configured API instance
 
 	public static final String apiUrl = "https://api.contribly.com/1";
 
-	public static io.swagger.client.api.AuthApi getAuthApi(Context context) {
+	public static AuthApi getAuthApi(Context context) {
 		AuthApi authApi = new AuthApi();
 		authApi.getApiClient().setBasePath(apiUrl);
 		return authApi;
 	}
 
-	public static io.swagger.client.api.AssignmentApi getAssignmentApi(Context context) {
+	public static AssignmentApi getAssignmentApi(Context context) {
 		AssignmentApi assignmentApi = new AssignmentApi();
 		assignmentApi.getApiClient().setBasePath(apiUrl);
 		return assignmentApi;
 	}
 
-	public static io.swagger.client.api.ContributionApi getContributionApi(Context context) {
+	public static ContributionApi getContributionApi(Context context) {
 		ContributionApi contributionApi = new ContributionApi();
 		contributionApi.getApiClient().setBasePath(apiUrl);
 		return contributionApi;

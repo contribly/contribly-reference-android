@@ -23,11 +23,11 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-import io.swagger.client.ApiResponse;
-import io.swagger.client.api.ContributionApi;
-import io.swagger.client.model.Artifact;
-import io.swagger.client.model.Assignment;
-import io.swagger.client.model.Contribution;
+import com.contribly.client.ApiResponse;
+import com.contribly.client.api.ContributionApi;
+import com.contribly.client.model.Artifact;
+import com.contribly.client.model.Assignment;
+import com.contribly.client.model.Contribution;
 
 public class assignment extends BaseActivity {
 	

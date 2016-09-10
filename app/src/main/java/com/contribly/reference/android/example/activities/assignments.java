@@ -12,9 +12,9 @@ import com.contribly.reference.android.example.api.ApiFactory;
 
 import java.util.List;
 
-import io.swagger.client.ApiResponse;
-import io.swagger.client.api.AssignmentApi;
-import io.swagger.client.model.Assignment;
+import com.contribly.client.ApiResponse;
+import com.contribly.client.api.AssignmentApi;
+import com.contribly.client.model.Assignment;
 
 public class assignments extends BaseActivity {
 	

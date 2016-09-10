@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.view.View;
 import android.view.View.OnClickListener;
 
-import io.swagger.client.model.Assignment;
+import com.contribly.client.model.Assignment;
 
 public class AssignmentClicker implements OnClickListener {
 
