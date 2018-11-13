@@ -126,7 +126,7 @@ public class assignment extends BaseActivity {
 			final String query = params[0];
 			try {
                 ApiResponse<List<Contribution>> listApiResponse = api.contributionsGetWithHttpInfo(query, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
-                Long totalContributions = Long.parseLong(listApiResponse.getHeaders().get("X-Total-Count").get(0));
+                Long totalContributions = Long.parseLong(listApiResponse.getHeaders().get("x-total-count").get(0));
                 return new ResultSet(totalContributions, listApiResponse.getData());
 
 			} catch (Exception e) {
