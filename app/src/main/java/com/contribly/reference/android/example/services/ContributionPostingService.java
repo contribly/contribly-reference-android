@@ -116,7 +116,7 @@ public class ContributionPostingService extends IntentService {
 		Intent notificationIntent = new Intent(context, profile.class);
 		
 		PendingIntent contentIntent = PendingIntent.getActivity(context, 0, notificationIntent, PendingIntent.FLAG_CANCEL_CURRENT);		
-		notification.setLatestEventInfo(context, text, text, contentIntent);
+		// TODO notification.setLatestEventInfo(context, text, text, contentIntent);
 		notificationManager.notify(1, notification);
 	}
 

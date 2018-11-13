@@ -288,7 +288,7 @@ public class contribute extends BaseActivity implements LocationListener {
 		protected List<Assignment> doInBackground(String... params) {
 			final String username = params[0];
 			try {
-				return api.assignmentsGet(username, 1, 20, null, null, null, true, null);
+				return api.assignmentsGet(username, 1, 20, null, null, null, true, null, null);
 				
 			} catch (Exception e) {
 				Log.e(TAG, "Failed to load assignments list");
