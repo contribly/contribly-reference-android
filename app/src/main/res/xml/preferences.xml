@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
  <EditTextPreference  android:title="API Base URL" android:key="apiUrl" android:summary="Base URL For the Contribly API" android:defaultValue="https://api.contribly.com/1"/>
- <EditTextPreference  android:title="Owned by" android:key="ownedBy" android:summary="The Contribly user id whose content should be shown" android:defaultValue=""/>
+ <EditTextPreference  android:title="Owned by" android:key="ownedBy" android:summary="The Contribly user id whose content should be shown" android:defaultValue="a5fb5536-91be-4439-8cdf-1906b0079517"/>
  <EditTextPreference  android:title="Consumer key" android:key="consumerKey" android:summary="Contribly API consumer key" android:defaultValue=""/>
  <EditTextPreference  android:title="Consumer secret" android:key="consumerSecret" android:summary="Contribly API consumer secret" android:defaultValue=""/>
  </PreferenceScreen>
