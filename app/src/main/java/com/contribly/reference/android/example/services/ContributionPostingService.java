@@ -1,10 +1,16 @@
 package com.contribly.reference.android.example.services;
 
 import android.app.IntentService;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.ContentResolver;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.NotificationCompat;
 import android.util.Base64;
 import android.util.Log;
 
@@ -13,6 +19,8 @@ import com.contribly.client.api.MediaApi;
 import com.contribly.client.model.Contribution;
 import com.contribly.client.model.Media;
 import com.contribly.client.model.MediaUsage;
+import com.contribly.reference.android.example.R;
+import com.contribly.reference.android.example.activities.assignments;
 import com.contribly.reference.android.example.api.ApiFactory;
 import com.google.common.collect.Lists;
 import com.google.gson.JsonParser;
@@ -32,6 +40,12 @@ public class ContributionPostingService extends IntentService {
 	public static final String NEW_CONTRIBUTION = "newContribution";
 	public static final String MEDIA = "media";
 	private static final String TAG = "ContributionPosting";
+    private static final String CHANNEL_ID = "contribly";
+    private static final int CONTRIBUTION_SUBMITTED = 1;
+
+	public ContributionPostingService() {
+		super("");
+	}
 
 	public ContributionPostingService(String name) {
 		super(name);
@@ -140,19 +154,36 @@ public class ContributionPostingService extends IntentService {
 	}
 
 	private void afterPost(Contribution result) {
-	    /* TODO invalid notification in latest SDK
-		final Context context = getApplicationContext();
-		final NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-		
-		final String text = "Your contribution has been submitted: " + result.getHeadline();
+	    createNotificationChannel();     // TODO Only needs to be done once push this some where nearer application startup
 
-		final Notification notification = new Notification(R.drawable.logo, text, new Date().getTime());
-		Intent notificationIntent = new Intent(context, assignments.class);
-		
-		PendingIntent contentIntent = PendingIntent.getActivity(context, 0, notificationIntent, PendingIntent.FLAG_CANCEL_CURRENT);		
-        notification.contentIntent = contentIntent;
-		notificationManager.notify(1, notification);
-		*/
-	}
+        final String text = "Your contribution has been submitted: " + result.getHeadline();
+        PendingIntent contentIntent = PendingIntent.getActivity(this, 0, new Intent(this, assignments.class), PendingIntent.FLAG_CANCEL_CURRENT);
+
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this, CHANNEL_ID)
+                .setSmallIcon(R.drawable.logo)
+                .setContentTitle(text)
+                .setContentText(text)
+                .setContentIntent(contentIntent)
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .setAutoCancel(true);
+
+        final NotificationManager notificationManager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.notify(CONTRIBUTION_SUBMITTED, mBuilder.build());
+    }
+
+    private void createNotificationChannel() {
+        // Create the NotificationChannel, but only on API 26+ because the NotificationChannel class is new and not in the support library
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = getString(R.string.app_name);
+            String description = getString(R.string.app_name);
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
+            channel.setDescription(description);
+            // Register the channel with the system; you can't change the importance
+            // or other notification behaviors after this
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
+    }
 
 }
