@@ -26,13 +26,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        
         <activity android:name="com.contribly.reference.android.example.activities.preferences" ></activity>
-        <activity android:name="com.contribly.reference.android.example.activities.profile" ></activity>
-        <activity android:name="com.contribly.reference.android.example.activities.signin" android:noHistory="true"></activity>
-        <activity android:name="com.contribly.reference.android.example.activities.signout" android:noHistory="true"></activity>
-		
 		<service android:name=".services.ContributionPostingService"></service>
 	</application>
-
 </manifest>

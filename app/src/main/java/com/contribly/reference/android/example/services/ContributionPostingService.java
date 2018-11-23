@@ -15,6 +15,7 @@ import com.contribly.client.model.Contribution;
 import com.contribly.client.model.Media;
 import com.contribly.client.model.MediaUsage;
 import com.contribly.reference.android.example.api.ApiFactory;
+import com.google.common.collect.Lists;
 import com.google.gson.JsonParser;
 import com.squareup.okhttp.FormEncodingBuilder;
 import com.squareup.okhttp.OkHttpClient;
@@ -25,6 +26,8 @@ import com.squareup.okhttp.Response;
 import org.apache.commons.io.IOUtils;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ContributionPostingService extends IntentService {
 
@@ -60,7 +63,8 @@ public class ContributionPostingService extends IntentService {
 		// If the contribution includes media then we need to submit it to the media endpoint before referencing the resulting media element in a contribution media usage.
 		MediaUsage mediaUsage = media != null ? submitMedia(media, accessToken) : null;
 		if (mediaUsage != null) {
-			newContribution.getMediaUsages().add(mediaUsage);
+            List<MediaUsage> mediaUsages = Lists.newArrayList(mediaUsage);
+            newContribution.setMediaUsages(mediaUsages);
 		}
 
 		Log.i(TAG, "Posting contribution: " + newContribution);
