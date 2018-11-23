@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
 
-import com.contribly.client.ApiException;
 import com.contribly.client.api.ContributionApi;
 import com.contribly.client.api.MediaApi;
 import com.contribly.client.model.Contribution;
@@ -26,19 +25,13 @@ import com.squareup.okhttp.Response;
 import org.apache.commons.io.IOUtils;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class ContributionPostingService extends IntentService {
 
 	public static final String NEW_CONTRIBUTION = "newContribution";
 	public static final String MEDIA = "media";
-
 	private static final String TAG = "ContributionPosting";
-
-	public ContributionPostingService() {
-		super("");
-	}
 
 	public ContributionPostingService(String name) {
 		super(name);
@@ -51,7 +44,6 @@ public class ContributionPostingService extends IntentService {
 		final Contribution newContribution = (Contribution) extras.getSerializable(NEW_CONTRIBUTION);
 		final String mediaUriString = (String) extras.getSerializable(MEDIA);
 		final Uri media = mediaUriString != null ? Uri.parse(mediaUriString) : null;
-
 		Log.i(TAG, "Received contribution to post: " + newContribution + " / media: " + media);
 
 		// Obtain an anonymous access token to use for this submission
@@ -59,14 +51,16 @@ public class ContributionPostingService extends IntentService {
         final String consumerSecret = ApiFactory.consumerSecret(this);
 		String accessToken = getAnonymousAccessToken(consumerKey, consumerSecret);
 
-		// Submit the contribution.
 		// If the contribution includes media then we need to submit it to the media endpoint before referencing the resulting media element in a contribution media usage.
-		MediaUsage mediaUsage = media != null ? submitMedia(media, accessToken) : null;
-		if (mediaUsage != null) {
+		Media mediaToAttach = media != null ? submitMedia(media, accessToken) : null;
+		if (mediaToAttach != null) {
+			MediaUsage mediaUsage = new MediaUsage();
+			mediaUsage.setMedia(mediaToAttach);
             List<MediaUsage> mediaUsages = Lists.newArrayList(mediaUsage);
             newContribution.setMediaUsages(mediaUsages);
 		}
 
+		// Submit the contribution.
 		Log.i(TAG, "Posting contribution: " + newContribution);
 		Contribution submittedContribution = submitContribution(newContribution, accessToken);
 
@@ -80,7 +74,7 @@ public class ContributionPostingService extends IntentService {
         // Swagger code gen doesn't currently provide auto generated grant calls so we'll compose this request manually.
         try {
             OkHttpClient client = new OkHttpClient();
-            Response response = client.newCall(buildPasswordGrantRequest(consumerKey, consumerSecret)).execute();
+            Response response = client.newCall(buildAnonymousGrantRequest(consumerKey, consumerSecret)).execute();
             if (response.code() == 200) {
                 String body = response.body().string();
                 Log.i(TAG, "Token response: " + body);
@@ -102,7 +96,7 @@ public class ContributionPostingService extends IntentService {
         }
     }
 
-    private Request buildPasswordGrantRequest(String consumerKey, String consumerSecret) {
+    private Request buildAnonymousGrantRequest(String consumerKey, String consumerSecret) {
         RequestBody formBody = new FormEncodingBuilder().
                 add("grant_type", "anonymous").
                 build();
@@ -111,7 +105,7 @@ public class ContributionPostingService extends IntentService {
         return new Request.Builder().url(ApiFactory.apiUrl + "/token").addHeader("Authorization", clientAuth).post(formBody).build();
     }
 
-	private MediaUsage submitMedia(Uri mediaUri, String accessToken) {
+	private Media submitMedia(Uri mediaUri, String accessToken) {
 		Log.i(TAG, "Posting media: " + mediaUri);
 
 		MediaApi mediaApi = ApiFactory.getMediaApi(this);
@@ -121,19 +115,12 @@ public class ContributionPostingService extends IntentService {
 		try {
 			Media media = mediaApi.mediaPost(IOUtils.toByteArray(cr.openInputStream(mediaUri)));
 			Log.i(TAG, "Media posted to: " + media);
+			return media;
 
-			// Use the new media element to build a media usage for inclusion in our contribution
-			// TODO this is in the wrong place; push up
-			MediaUsage newMediaUsage = new MediaUsage();
-			newMediaUsage.setMedia(media);
-			return newMediaUsage;
-
-		} catch (ApiException e) {
+		} catch (Exception e) {
 			Log.w(TAG, "Media post failed", e);
-		} catch (IOException e) {
-			Log.e(TAG, "Media post failed", e);
+			return null;
 		}
-		return null;
 	}
 
 	private Contribution submitContribution(Contribution newContribution, String accessToken) {
