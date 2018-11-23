@@ -3,11 +3,6 @@
         android:id="@+id/assignments"
         android:showAsAction="ifRoom"
         android:title="Assignments">
-    </item>    
-    <item
-        android:id="@+id/profile"
-        android:showAsAction="ifRoom"
-        android:title="Profile">
     </item>
     <item
         android:id="@+id/signin"

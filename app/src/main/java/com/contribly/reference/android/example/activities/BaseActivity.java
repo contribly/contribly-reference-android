@@ -24,10 +24,6 @@ public class BaseActivity extends Activity {
 			this.startActivity(new Intent(this, assignments.class));
 			return true;
 
-		case R.id.profile:
-			this.startActivity(new Intent(this, profile.class));
-			return true;
-			
 		case R.id.signin:
 			this.startActivity(new Intent(this, signin.class));
 			return true;

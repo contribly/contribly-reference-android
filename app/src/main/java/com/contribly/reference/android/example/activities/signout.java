@@ -29,7 +29,7 @@ public class signout extends BaseActivity {
 	}
 	
 	private void redirectToProfileActivity() {
-		startActivity(new Intent(this, profile.class));	// TODO no history on this step.	
+		startActivity(new Intent(this, assignments.class));	// TODO no history on this step.
 	}
 	
 }

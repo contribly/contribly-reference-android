@@ -11,21 +11,20 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.contribly.reference.android.example.R;
-import com.contribly.reference.android.example.activities.profile;
-import com.contribly.reference.android.example.api.ApiFactory;
-
-import org.apache.commons.io.IOUtils;
-
-import java.io.IOException;
-import java.util.Date;
-
 import com.contribly.client.ApiException;
 import com.contribly.client.api.ContributionApi;
 import com.contribly.client.api.MediaApi;
 import com.contribly.client.model.Contribution;
 import com.contribly.client.model.Media;
 import com.contribly.client.model.MediaUsage;
+import com.contribly.reference.android.example.R;
+import com.contribly.reference.android.example.activities.assignments;
+import com.contribly.reference.android.example.api.ApiFactory;
+
+import org.apache.commons.io.IOUtils;
+
+import java.io.IOException;
+import java.util.Date;
 
 public class ContributionPostingService extends IntentService {
 
@@ -49,18 +48,18 @@ public class ContributionPostingService extends IntentService {
 		final Contribution newContribution = (Contribution) extras.getSerializable(NEW_CONTRIBUTION);
 		final String mediaUriString = (String) extras.getSerializable(MEDIA);
 		final Uri media = mediaUriString != null ? Uri.parse(mediaUriString) : null;
+
+		Log.i(TAG, "Received contribution to post: " + newContribution + " / media: " + media);
 		String accessToken = LoggedInUserService.getInstance().getLoggedInUsersAccessToken();	// TODO potential race conditional; has the user signed out in the meantime? The access token should be past in as part of the message.
-		Log.i(TAG, "Received contibution to post: " + newContribution + " / media: " + media);
 
 		// Submit the contribution.
-		// If the contribution includes media then we need to submit that to the media endpoint before referencing the resulting media element in a contribution media usage.
+		// If the contribution includes media then we need to submit it to the media endpoint before referencing the resulting media element in a contribution media usage.
 		MediaUsage mediaUsage = media != null ? submitMedia(media, accessToken) : null;
-
 		if (mediaUsage != null) {
 			newContribution.getMediaUsages().add(mediaUsage);
 		}
 
-		Log.i(TAG, "Posting contribution in background: " + newContribution);
+		Log.i(TAG, "Posting contribution: " + newContribution);
 		Contribution submittedContribution = submitContribution(newContribution, accessToken);
 
 		// Notify the user that their contribution has been submitted
@@ -70,6 +69,8 @@ public class ContributionPostingService extends IntentService {
 	}
 
 	private MediaUsage submitMedia(Uri mediaUri, String accessToken) {
+		Log.i(TAG, "Posting media: " + mediaUri);
+
 		MediaApi mediaApi = ApiFactory.getMediaApi(this);
 		mediaApi.getApiClient().setAccessToken(accessToken);
 		ContentResolver cr = getContentResolver();
@@ -79,6 +80,7 @@ public class ContributionPostingService extends IntentService {
 			Log.i(TAG, "Media posted to: " + media);
 
 			// Use the new media element to build a media usage for inclusion in our contribution
+			// TODO this is in the wrong place; push up
 			MediaUsage newMediaUsage = new MediaUsage();
 			newMediaUsage.setMedia(media);
 			return newMediaUsage;
@@ -113,11 +115,11 @@ public class ContributionPostingService extends IntentService {
 		
 		final String text = "Your contribution has been submitted: " + result.getHeadline();
 		final Notification notification = new Notification(R.drawable.logo, text, new Date().getTime());
-		Intent notificationIntent = new Intent(context, profile.class);
+		Intent notificationIntent = new Intent(context, assignments.class);
 		
 		PendingIntent contentIntent = PendingIntent.getActivity(context, 0, notificationIntent, PendingIntent.FLAG_CANCEL_CURRENT);		
 		// TODO notification.setLatestEventInfo(context, text, text, contentIntent);
-		notificationManager.notify(1, notification);
+		// TODO notificationManager.notify(1, notification);
 	}
 
 }

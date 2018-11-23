@@ -57,10 +57,9 @@ public class signin extends BaseActivity {
         new AuthenticateUsernameAndPasswordTask().execute(username, password, ApiFactory.consumerKey(this), ApiFactory.consumerSecret(this));
     }
 
-
     private void persistAccessTokenAndRedirectToProfileActivity(String token) {
         loggedInUserService.setLoggedInUsersAccessToken(token);
-        startActivity(new Intent(this, profile.class));    // TODO no history on this step.
+        startActivity(new Intent(this, assignments.class));    // TODO no history on this step.
     }
 
     private class AuthenticateUsernameAndPasswordTask extends AsyncTask<String, Integer, String> {
@@ -109,9 +108,7 @@ public class signin extends BaseActivity {
 
         private Request buildPasswordGrantRequest(String username, String password, String consumerKey, String consumerSecret) {
             RequestBody formBody = new FormEncodingBuilder().
-                    add("grant_type", "password").
-                    add("username", username).
-                    add("password", password).
+                    add("grant_type", "anonymous").
                     build();
 
             String clientAuth = "Basic " + Base64.encodeToString((consumerKey + ":" + consumerSecret).getBytes(), Base64.NO_WRAP);
