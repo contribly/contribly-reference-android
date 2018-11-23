@@ -32,7 +32,6 @@ import com.contribly.client.model.Contribution;
 public class assignment extends BaseActivity {
 	
 	private static final String ASSIGNMENT = AssignmentClicker.ASSIGNMENT;
-	private static final String TAG = "assignment";
 
 	private AssignmentDescriptionBuilder assignmentDescriptionBuilder;
 	
@@ -70,16 +69,16 @@ public class assignment extends BaseActivity {
 			assignmentStatusTextView.setVisibility(View.VISIBLE);
 		}
 
-		contentList = (ListView) findViewById(R.id.list);
+		contentList = findViewById(R.id.list);
 		contentList.addHeaderView(header);
 
-        final TextView assignmentNameTextView = (TextView) findViewById(R.id.assignmentName);
+        final TextView assignmentNameTextView = findViewById(R.id.assignmentName);
         assignmentNameTextView.setText(assignment.getName());
 
-    	final TextView metaDataTextView = (TextView) findViewById(R.id.assignmentMetadata);
+    	final TextView metaDataTextView = findViewById(R.id.assignmentMetadata);
 		metaDataTextView.setText(assignmentDescriptionBuilder.composeMetaDataDescription(assignment));
 
-		final TextView descriptionTextView = (TextView) findViewById(R.id.assignmentDescription);
+		final TextView descriptionTextView = findViewById(R.id.assignmentDescription);
 		if (assignment.getDescription() != null) {
 			// Some clients choose to use HTML in the assignment description field
 			descriptionTextView.setText(Html.fromHtml(assignment.getDescription()));
