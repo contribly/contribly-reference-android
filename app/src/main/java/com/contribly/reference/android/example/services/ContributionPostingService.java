@@ -1,11 +1,7 @@
 package com.contribly.reference.android.example.services;
 
 import android.app.IntentService;
-import android.app.Notification;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.ContentResolver;
-import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -17,14 +13,11 @@ import com.contribly.client.api.MediaApi;
 import com.contribly.client.model.Contribution;
 import com.contribly.client.model.Media;
 import com.contribly.client.model.MediaUsage;
-import com.contribly.reference.android.example.R;
-import com.contribly.reference.android.example.activities.assignments;
 import com.contribly.reference.android.example.api.ApiFactory;
 
 import org.apache.commons.io.IOUtils;
 
 import java.io.IOException;
-import java.util.Date;
 
 public class ContributionPostingService extends IntentService {
 
@@ -110,16 +103,19 @@ public class ContributionPostingService extends IntentService {
 	}
 
 	private void afterPost(Contribution result) {
+	    /* TODO invalid notification in latest SDK
 		final Context context = getApplicationContext();
 		final NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 		
 		final String text = "Your contribution has been submitted: " + result.getHeadline();
+
 		final Notification notification = new Notification(R.drawable.logo, text, new Date().getTime());
 		Intent notificationIntent = new Intent(context, assignments.class);
 		
 		PendingIntent contentIntent = PendingIntent.getActivity(context, 0, notificationIntent, PendingIntent.FLAG_CANCEL_CURRENT);		
-		// TODO notification.setLatestEventInfo(context, text, text, contentIntent);
-		// TODO notificationManager.notify(1, notification);
+        notification.contentIntent = contentIntent;
+		notificationManager.notify(1, notification);
+		*/
 	}
 
 }
