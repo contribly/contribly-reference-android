@@ -80,7 +80,10 @@ public class assignment extends BaseActivity {
 		metaDataTextView.setText(assignmentDescriptionBuilder.composeMetaDataDescription(assignment));
 
 		final TextView descriptionTextView = (TextView) findViewById(R.id.assignmentDescription);
-		descriptionTextView.setText(Html.fromHtml(assignment.getDescription()));	// Some clients choose to use HTML in the assignment description field.
+		if (assignment.getDescription() != null) {
+			// Some clients choose to use HTML in the assignment description field
+			descriptionTextView.setText(Html.fromHtml(assignment.getDescription()));
+		}
 
 		FetchContributionsTask fetchContentTask = new FetchContributionsTask(ApiFactory.getContributionApi(this));
 		fetchContentTask.execute(assignment.getId());
