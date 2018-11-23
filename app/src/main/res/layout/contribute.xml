@@ -51,18 +51,6 @@
                     android:hint="Body"
                     android:layout_marginBottom="8pt" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/assignment_prompt"
-                    android:id="@+id/textView" />
-
-                <Spinner android:id="@+id/assignmentDropdown"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:prompt="@string/assignment_prompt"
-                    android:layout_marginBottom="8pt" />
-
                 <TableLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">

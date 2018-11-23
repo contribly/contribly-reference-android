@@ -9,7 +9,6 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
@@ -17,21 +16,16 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.contribly.client.api.AssignmentApi;
 import com.contribly.client.model.Assignment;
 import com.contribly.client.model.Contribution;
 import com.contribly.reference.android.example.R;
 import com.contribly.reference.android.example.activities.views.AssignmentContributeClicker;
-import com.contribly.reference.android.example.api.ApiFactory;
 import com.contribly.reference.android.example.services.ContributionPostingService;
-import com.google.common.collect.Lists;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -62,8 +56,6 @@ public class contribute extends BaseActivity implements LocationListener {
 
         Button chooseImageButton = findViewById(R.id.chooseImage);
         chooseImageButton.setOnClickListener(new ContributeImageClicker(this));
-
-        new FetchAssignmentsTask(ApiFactory.getAssignmentApi(this)).execute(ApiFactory.ownedBy(this));
 
         Intent intent = getIntent();
         Bundle extras = intent.getExtras();
@@ -97,25 +89,6 @@ public class contribute extends BaseActivity implements LocationListener {
         registerForLocationUpdates();
     }
 
-    private void populateAssignmentDropdown(List<Assignment> assignments) {
-        final List<String> assignmentNames = Lists.newArrayList();
-        for (Assignment assignment : assignments) {
-            assignmentNames.add(assignment.getName());
-        }
-
-        Spinner assignmentDropdown = (Spinner) findViewById(R.id.assignmentDropdown);
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, assignmentNames);   // TODO Assignment name may not be unique. No dropdown key/value ui in Android?
-        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        assignmentDropdown.setAdapter(dataAdapter);
-
-        if (assignment != null) {
-            final int selectedIndex = assignmentNames.indexOf(assignment.getName());
-            if (selectedIndex > -1) {
-                assignmentDropdown.setSelection(selectedIndex);
-            }
-        }
-    }
-
     @Override
     protected void onPause() {
         super.onPause();
@@ -129,16 +102,12 @@ public class contribute extends BaseActivity implements LocationListener {
         EditText bodyInput = (EditText) findViewById(R.id.body);
         final String body = bodyInput.getText().toString();
 
-        Spinner assignmentDropdown = (Spinner) findViewById(R.id.assignmentDropdown);
-        final String selectedAssignmentName = (String) assignmentDropdown.getSelectedItem();
-
         // Compose a new contribution from the user's form submission and the handset location if available
         Contribution newContribution = new Contribution();
         newContribution.setHeadline(headline);
         newContribution.setBody(body);
 
-        Assignment selectedAssignment = findAssignmentByName(selectedAssignmentName, assignments);
-        newContribution.setAssignment(selectedAssignment);
+        newContribution.setAssignment(assignment);
 
         // TODO location
 
@@ -161,15 +130,6 @@ public class contribute extends BaseActivity implements LocationListener {
 
         this.startActivity(new Intent(this, assignments.class));
         return;
-    }
-
-    private Assignment findAssignmentByName(String name, List<Assignment> assignments) {
-        for (Assignment assignment : assignments) {
-            if (assignment.getName().equals(name)) {
-                return assignment;
-            }
-        }
-        return null;
     }
 
     @Override
@@ -285,35 +245,6 @@ public class contribute extends BaseActivity implements LocationListener {
                 }
                 break;
         }
-    }
-
-    private class FetchAssignmentsTask extends AsyncTask<String, Integer, List<Assignment>> {    // TODO duplication?
-
-        private final AssignmentApi api;
-
-        public FetchAssignmentsTask(AssignmentApi api) {
-            super();
-            this.api = api;
-        }
-
-        @Override
-        protected List<Assignment> doInBackground(String... params) {
-            final String username = params[0];
-            try {
-                return api.assignmentsGet(username, 1, 20, null, null, null, true, null, null);
-
-            } catch (Exception e) {
-                Log.e(TAG, "Failed to load assignments list");
-                return Lists.newArrayList();    // TODO notify this error to the user
-            }
-        }
-
-        @Override
-        protected void onPostExecute(List<Assignment> loadedAssignments) {
-            assignments = loadedAssignments;
-            populateAssignmentDropdown(loadedAssignments);
-        }
-
     }
 
 }
