@@ -59,7 +59,7 @@ public class assignments extends BaseActivity {
 			try {
 				// Call the Contribly API for a list on currently open assignments
 				// The actual call is handled by Swagger code gen client library which has been auto generated from the Contribly API's Swagger definition
-				ApiResponse<List<Assignment>> listApiResponse = api.assignmentsGetWithHttpInfo(ownedBy, 1, 20, null, null, null, true, null, null);
+				ApiResponse<List<Assignment>> listApiResponse = api.assignmentsGetWithHttpInfo(ownedBy, 1, 20, null, null, null, null, null, null);
 				return listApiResponse.getData();
 
 			} catch (Exception e) {
