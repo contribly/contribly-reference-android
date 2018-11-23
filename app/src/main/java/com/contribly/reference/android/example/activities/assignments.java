@@ -40,7 +40,7 @@ public class assignments extends BaseActivity {
 			listAdapater.add(assignment);
 		}
 		
-		final ListView assignmentsList = (ListView) findViewById(R.id.list);
+		final ListView assignmentsList = findViewById(R.id.list);
 		assignmentsList.setAdapter(listAdapater);
 	}
 	
