@@ -5,6 +5,7 @@ import android.content.ContentResolver;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 
 import com.contribly.client.ApiException;
@@ -14,6 +15,12 @@ import com.contribly.client.model.Contribution;
 import com.contribly.client.model.Media;
 import com.contribly.client.model.MediaUsage;
 import com.contribly.reference.android.example.api.ApiFactory;
+import com.google.gson.JsonParser;
+import com.squareup.okhttp.FormEncodingBuilder;
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.RequestBody;
+import com.squareup.okhttp.Response;
 
 import org.apache.commons.io.IOUtils;
 
@@ -43,7 +50,11 @@ public class ContributionPostingService extends IntentService {
 		final Uri media = mediaUriString != null ? Uri.parse(mediaUriString) : null;
 
 		Log.i(TAG, "Received contribution to post: " + newContribution + " / media: " + media);
-		String accessToken = LoggedInUserService.getInstance().getLoggedInUsersAccessToken();	// TODO potential race conditional; has the user signed out in the meantime? The access token should be past in as part of the message.
+
+		// Obtain an anonymous access token to use for this submission
+        final String consumerKey = ApiFactory.consumerKey(this);
+        final String consumerSecret = ApiFactory.consumerSecret(this);
+		String accessToken = getAnonymousAccessToken(consumerKey, consumerSecret);
 
 		// Submit the contribution.
 		// If the contribution includes media then we need to submit it to the media endpoint before referencing the resulting media element in a contribution media usage.
@@ -60,6 +71,41 @@ public class ContributionPostingService extends IntentService {
 
 		return;
 	}
+
+	private String getAnonymousAccessToken(String consumerKey, String consumerSecret) {
+        // Swagger code gen doesn't currently provide auto generated grant calls so we'll compose this request manually.
+        try {
+            OkHttpClient client = new OkHttpClient();
+            Response response = client.newCall(buildPasswordGrantRequest(consumerKey, consumerSecret)).execute();
+            if (response.code() == 200) {
+                String body = response.body().string();
+                Log.i(TAG, "Token response: " + body);
+
+                // Extract access token from grant reply
+                String token = new JsonParser().parse(body).getAsJsonObject().get("access_token").getAsString();
+                Log.i(TAG, "Got access token: " + token);
+
+                return token;
+
+            } else {
+                Log.w(TAG, "Failed token response: " + response.code() + " / " + response.body().string());
+                return null;
+            }
+
+        } catch (IOException e) {
+            Log.e(TAG, "Password grant request failed", e);
+            return null;
+        }
+    }
+
+    private Request buildPasswordGrantRequest(String consumerKey, String consumerSecret) {
+        RequestBody formBody = new FormEncodingBuilder().
+                add("grant_type", "anonymous").
+                build();
+
+        String clientAuth = "Basic " + Base64.encodeToString((consumerKey + ":" + consumerSecret).getBytes(), Base64.NO_WRAP);
+        return new Request.Builder().url(ApiFactory.apiUrl + "/token").addHeader("Authorization", clientAuth).post(formBody).build();
+    }
 
 	private MediaUsage submitMedia(Uri mediaUri, String accessToken) {
 		Log.i(TAG, "Posting media: " + mediaUri);

@@ -26,7 +26,6 @@ import com.contribly.reference.android.example.R;
 import com.contribly.reference.android.example.activities.views.AssignmentContributeClicker;
 import com.contribly.reference.android.example.api.ApiFactory;
 import com.contribly.reference.android.example.services.ContributionPostingService;
-import com.contribly.reference.android.example.services.LoggedInUserService;
 import com.google.common.collect.Lists;
 import com.squareup.picasso.Picasso;
 
@@ -43,8 +42,6 @@ public class contribute extends BaseActivity implements LocationListener {
 	private static final String ASSIGNMENT = AssignmentContributeClicker.ASSIGNMENT;
     private static final int RESULT_LOAD_IMAGE = 1;
 
-	private LoggedInUserService loggedInUserService;
-
 	private Uri image;
 	private Location location = null;
 	private Assignment assignment;
@@ -54,8 +51,6 @@ public class contribute extends BaseActivity implements LocationListener {
     public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
         setContentView(R.layout.contribute);      
-        
-		loggedInUserService = LoggedInUserService.getInstance();
 
         if (this.getIntent().getExtras() != null) {
 	        if (this.getIntent().getExtras().get(ASSIGNMENT) != null) {
@@ -91,22 +86,12 @@ public class contribute extends BaseActivity implements LocationListener {
 	protected void onResume() {
 		super.onResume();
 		
-		TextView contributeLoginHint = (TextView) findViewById(R.id.contributeLoginStatus);
 		View contributeForm = (View) findViewById(R.id.contributeForm);
 
-		final boolean isSignedIn = loggedInUserService.getLoggedInUsersAccessToken() != null;
-		if (isSignedIn) {
-			Button contributeButton = (Button) findViewById(R.id.contributeButton);
-			contributeButton.setOnClickListener(contributionClickListener);
-			contributeForm.setVisibility(View.VISIBLE);
-			contributeLoginHint.setVisibility(View.GONE);
+		Button contributeButton = (Button) findViewById(R.id.contributeButton);
+		contributeButton.setOnClickListener(contributionClickListener);
+		contributeForm.setVisibility(View.VISIBLE);
 
-		} else {
-			contributeForm.setVisibility(View.GONE);
-			contributeLoginHint.setText("You must be signed in to contribute");
-			contributeLoginHint.setVisibility(View.VISIBLE);
-		}
-		
 		registerForLocationUpdates();
 	}
 
